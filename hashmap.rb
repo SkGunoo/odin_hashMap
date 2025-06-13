@@ -61,6 +61,19 @@ class HashMap
     key_exist
   end
 
+  def remove(key)
+    bucket_number = hash(key) % @capcacity
+    #this creates the reference to an element of @hash_map
+    bucket = @hash_map[bucket_number]
+    
+    #get rid of item with reject! from bucket
+    if pair = bucket.find {|item| item[0] == key }
+      bucket.reject! {|item| item[0] == key}
+      return pair[1]
+    end
+    nil
+  end
+
 end
 
 
@@ -78,3 +91,4 @@ a.set("chcrereh","papa")
 p a.get("a")
 p a.get("hoho")
 p a.has?("b")
+p a.remove("a")
