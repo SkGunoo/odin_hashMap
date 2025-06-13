@@ -84,6 +84,24 @@ class HashMap
     p @hash_map
   end
 
+  def keys
+    all_the_keys = []
+    @hash_map.flatten.each_with_index do |el, index|
+      #all the even? elements are keys in flattened hashmap
+      all_the_keys << el if index.even?
+    end
+    all_the_keys
+  end
+
+  def values
+    all_the_values = []
+    @hash_map.flatten.each_with_index do |el, index|
+      all_the_values << el if index.odd?
+    end
+    all_the_values
+  end
+  
+
 end
 
 
@@ -105,4 +123,6 @@ p a.get("hoho")
 p a.has?("b")
 # p a.remove("a")
 puts a.length
-a.clear
+# a.clear
+p a.keys
+p a.values
