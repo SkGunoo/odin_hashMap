@@ -101,6 +101,15 @@ class HashMap
     all_the_values
   end
   
+  def entries
+    all_the_key_value_pair = []
+    flattened_hashmap = @hash_map.flatten
+    #every 2 elements from flattened hashmap is key value pair
+    flattened_hashmap.each_with_index do |el, index|
+      all_the_key_value_pair << [el, flattened_hashmap[index + 1]] if index.even?
+    end
+    all_the_key_value_pair
+  end
 
 end
 
@@ -126,3 +135,4 @@ puts a.length
 # a.clear
 p a.keys
 p a.values
+p a.entries
