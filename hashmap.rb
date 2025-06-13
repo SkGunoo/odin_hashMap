@@ -1,5 +1,6 @@
 class HashMap
   
+  attr_reader :capcacity
   def initialize(capcacity, load_factor)
     @capcacity = capcacity
     @load_factor = load_factor
@@ -18,8 +19,28 @@ class HashMap
     bucket_number = hash(key) % @capcacity
     insert_value_to_bucket(key,value,bucket_number)
     #testing if it works properly on terminal 
-    p @hash_map
-    puts 
+    # p @hash_map
+    # puts 
+    #check if hashmap's capacity need to be increased
+    increase_capacity if more_entries_than_load_factor?
+  end
+
+  def more_entries_than_load_factor?
+    load_factor = @capcacity * @load_factor
+    load_factor <= self.length ? true : false
+  end
+
+  def increase_capacity
+    @capcacity = @capcacity * 2
+    #get all the entires so we can re distribute over increased sized hashmap
+    key_value_pairs = self.entries
+    #reset hashmap with increased capacity
+    @hash_map = Array.new(@capcacity) {[]}
+    #re distibute the key value pair over new hashmap
+    key_value_pairs.each do |entry|
+      bucket_number = hash(entry[0]) % @capcacity
+      insert_value_to_bucket(entry[0],entry[1],bucket_number)
+    end
   end
 
   def insert_value_to_bucket(key,value,bucket_number)
@@ -116,23 +137,43 @@ end
 
 #test
 
-a = HashMap.new(16,0.75)
+# a = HashMap.new(16,0.75)
 
-a.set("a","haha")
-a.set("a","over")
-a.set("a","tata")
-a.set("hoho","popo")
-a.set("chch","papa")
-a.set("chch","ppa")
-a.set("chcrereh","papa")
-a.set("gtgtgt","papa")
+# a.set("a","haha")
+# a.set("a","over")
+# a.set("a","tata")
+# a.set("hoho","popo")
+# a.set("chch","papa")
+# a.set("chch","ppa")
+# a.set("chcrereh","papa")
+# a.set("gtgtgt","papa")
 
-p a.get("a")
-p a.get("hoho")
-p a.has?("b")
-# p a.remove("a")
-puts a.length
-# a.clear
-p a.keys
-p a.values
-p a.entries
+# p a.get("a")
+# p a.get("hoho")
+# p a.has?("b")
+# # p a.remove("a")
+# puts a.length
+# # a.clear
+# p a.keys
+# p a.values
+# p a.entries
+# 
+test = HashMap.new(16,0.75)
+
+test.set('apple', 'red')
+test.set('banana', 'yellow')
+test.set('carrot', 'orange')
+test.set('dog', 'brown')
+test.set('elephant', 'gray')
+test.set('frog', 'green')
+test.set('grape', 'purple')
+test.set('hat', 'black')
+test.set('ice cream', 'white')
+test.set('jacket', 'blue')
+test.set('kite', 'pink')
+test.set('lion', 'golden')
+# test.check_load_factor
+test.set('power', 'golden')
+p test.capcacity
+p test.entries
+puts test.get('power')
