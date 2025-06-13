@@ -48,6 +48,19 @@ class HashMap
     end
     value
   end
+
+  def has?(key)
+    key_exist = false
+    #go through entire hashmap 
+    @hash_map.each do |bucket|
+      bucket.each do | item |
+        #item[0] is key
+        break key_exist = true if item[0] == key
+      end
+    end
+    key_exist
+  end
+
 end
 
 
@@ -64,3 +77,4 @@ a.set("chch","ppa")
 a.set("chcrereh","papa")
 p a.get("a")
 p a.get("hoho")
+p a.has?("b")
