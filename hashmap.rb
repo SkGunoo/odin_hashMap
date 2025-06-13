@@ -1,10 +1,10 @@
 class HashMap
   
-  attr_reader :capcacity
-  def initialize(capcacity, load_factor)
-    @capcacity = capcacity
+  attr_reader :capacity
+  def initialize(capacity, load_factor)
+    @capacity = capacity
     @load_factor = load_factor
-    @hash_map = Array.new(@capcacity) { [] }
+    @hash_map = Array.new(@capacity) { [] }
   end
 
   def hash(key)
@@ -16,7 +16,7 @@ class HashMap
   end
 
   def set(key,value)
-    bucket_number = hash(key) % @capcacity
+    bucket_number = hash(key) % @capacity
     insert_value_to_bucket(key,value,bucket_number)
     #testing if it works properly on terminal 
     # p @hash_map
@@ -26,19 +26,19 @@ class HashMap
   end
 
   def more_entries_than_load_factor?
-    load_factor = @capcacity * @load_factor
+    load_factor = @capacity * @load_factor
     load_factor <= self.length ? true : false
   end
 
   def increase_capacity
-    @capcacity = @capcacity * 2
+    @capacity = @capacity * 2
     #get all the entires so we can re distribute over increased sized hashmap
     key_value_pairs = self.entries
     #reset hashmap with increased capacity
-    @hash_map = Array.new(@capcacity) {[]}
+    @hash_map = Array.new(@capacity) {[]}
     #re distibute the key value pair over new hashmap
     key_value_pairs.each do |entry|
-      bucket_number = hash(entry[0]) % @capcacity
+      bucket_number = hash(entry[0]) % @capacity
       insert_value_to_bucket(entry[0],entry[1],bucket_number)
     end
   end
@@ -58,7 +58,7 @@ class HashMap
   end
 
   def get(key)
-    bucket_number = hash(key) % @capcacity
+    bucket_number = hash(key) % @capacity
     value = nil
     #retun nil if bucket is empty
     return value if @hash_map[bucket_number].empty?
@@ -83,7 +83,7 @@ class HashMap
   end
 
   def remove(key)
-    bucket_number = hash(key) % @capcacity
+    bucket_number = hash(key) % @capacity
     #this creates the reference to an element of @hash_map
     bucket = @hash_map[bucket_number]
 
@@ -101,7 +101,7 @@ class HashMap
   end
 
   def clear
-    @hash_map = Array.new(@capcacity) {[]}
+    @hash_map = Array.new(@capacity) {[]}
     p @hash_map
   end
 
@@ -174,6 +174,6 @@ test.set('kite', 'pink')
 test.set('lion', 'golden')
 # test.check_load_factor
 test.set('power', 'golden')
-p test.capcacity
+p test.capacity
 p test.entries
 puts test.get('power')
